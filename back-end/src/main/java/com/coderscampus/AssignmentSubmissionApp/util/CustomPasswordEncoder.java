@@ -1,5 +1,6 @@
 package com.coderscampus.AssignmentSubmissionApp.util;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -12,9 +13,9 @@ public class CustomPasswordEncoder {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
+    @Bean
     public PasswordEncoder getPasswordEncoder() {
         return passwordEncoder;
     }
 
-    
 }

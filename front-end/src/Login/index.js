@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Button, Col, Container, Row, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../NavBar";
-import { useUser } from "../UserProvider";
+//import { useUser } from "../UserProvider";
+import { useLocalState } from "../util/useLocalStorage";
 
 const Login = () => {
-  const user = useUser();
+  // const user = useUser();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
+  const [jwt, setJwt] = useLocalState("", "jwt");
 
   // useEffect(() => {
   //   if (user.jwt) navigate("/dashboard");
@@ -29,6 +31,13 @@ const Login = () => {
       method: "post",
       body: JSON.stringify(reqBody),
     })
+      .then((response) => Promise.all([response.json(), response.headers]))
+      .then(([body, headers]) => {
+        console.log(headers);
+        console.log(body);
+        setJwt(headers.get("authorization"));
+      });
+    /*
       .then((response) => {
         if (response.status === 200) return response.text();
         else if (response.status === 401 || response.status === 403) {
@@ -44,12 +53,13 @@ const Login = () => {
           user.setJwt(data);
           navigate("/dashboard");
         }
-      });
+      });*/
   }
   return (
     <>
       <NavBar />
       <Container>
+        <div>JWT is {jwt}</div>
         <Row className="justify-content-center mt-5">
           <Col md="8" lg="6">
             <Form.Group className="mb-3" controlId="username">
@@ -109,6 +119,7 @@ const Login = () => {
               type="button"
               size="lg"
               onClick={() => {
+                //setJwt(" ");
                 navigate("/");
               }}
             >

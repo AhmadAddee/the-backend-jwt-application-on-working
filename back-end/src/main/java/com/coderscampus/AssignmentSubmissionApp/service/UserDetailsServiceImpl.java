@@ -1,17 +1,16 @@
 package com.coderscampus.AssignmentSubmissionApp.service;
 
-import java.util.Optional;
-
+import com.coderscampus.AssignmentSubmissionApp.db.repositories.UserRepository;
+import com.coderscampus.AssignmentSubmissionApp.util.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import com.coderscampus.AssignmentSubmissionApp.db.dbo.UserDb;
 
-import com.coderscampus.AssignmentSubmissionApp.domain.User;
-import com.coderscampus.AssignmentSubmissionApp.repository.UserRepository;
-import com.coderscampus.proffesso.domain.ProffessoUser;
-import com.coderscampus.proffesso.repository.ProffessoUserRepo;
+import java.util.Optional;
+
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -19,30 +18,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
     @Autowired
-    private ProffessoUserRepo proffessoUserRepo;
-    
+    private CustomPasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
-        Optional<ProffessoUser> proffessoUserOpt = proffessoUserRepo.findByEmail(username);
-        if (proffessoUserOpt.isEmpty()) {
-            throw new UsernameNotFoundException("Invalid username or password");
-        }
-        
-        Optional<User> userOpt = userRepo.findByUsername(username);
-        if (userOpt.isEmpty()) {
-            // user exists in Proffesso but not here, this means we'll need to create an account
-            //  for this user in this app
-            User user = new User(proffessoUserOpt.get(), Optional.empty());
-            user = userRepo.save(user);
-            return user;
-        } else {
-            // TODO: Check that proffesso user and this app's user are in sync.
-            User user = new User(proffessoUserOpt.get(), userOpt);
-            user = userRepo.save(user);
-            return user;
-        }
-        
+        Optional<UserDb> userDbOpt = userRepo.findByUsername(username);
+        System.out.println(userDbOpt.get().getFull_name());
+        //userDbOpt.get().setPassword(passwordEncoder.getPasswordEncoder().encode(userDbOpt.get().getPassword()));
+        System.out.println(userDbOpt.get().getPassword());
+        return userDbOpt.orElseThrow(() -> new UsernameNotFoundException("Invalid credentials"));
     }
 
 }
+
+
+

@@ -1,5 +1,5 @@
 package com.coderscampus;
-
+/*
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,3 +77,5 @@ public class ProffessoDbConfigProd {
         return new JpaTransactionManager(proffessoEntityManagerFactory);
     }
 }
+
+ */

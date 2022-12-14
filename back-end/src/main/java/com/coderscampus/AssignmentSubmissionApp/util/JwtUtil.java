@@ -19,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtUtil implements Serializable {
 
-    private static final long serialVersionUID = -2550185165626007488L;
+    private static final long serialVersionUID = -1L;
 
     public static final long JWT_TOKEN_VALIDITY = 12 * 30 * 24 * 60 * 60;
 
@@ -58,6 +58,7 @@ public class JwtUtil implements Serializable {
     }
 
     public String generateToken(UserDetails userDetails) {
+        System.out.println("generateToken()");
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", userDetails.getAuthorities()
                 .stream()

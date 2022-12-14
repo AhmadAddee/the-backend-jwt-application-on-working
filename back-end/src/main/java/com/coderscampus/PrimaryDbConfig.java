@@ -1,5 +1,5 @@
 package com.coderscampus;
-
+/*
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,3 +83,5 @@ public class PrimaryDbConfig {
         return new JpaTransactionManager(entityManagerFactory);
     }
 }
+
+ */

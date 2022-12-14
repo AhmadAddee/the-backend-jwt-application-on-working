@@ -3,17 +3,17 @@ package com.coderscampus.AssignmentSubmissionApp.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserDto {
-	@JsonProperty("name")
-private String name;
+	@JsonProperty("full_name")
+private String full_name;
 	@JsonProperty("username")
 private String username;
 	@JsonProperty("password")
 private String password;
-	public String getName() {
-		return name;
+	public String getFull_name() {
+		return full_name;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFull_name(String name) {
+		this.full_name = name;
 	}
 	public String getUsername() {
 		return username;
