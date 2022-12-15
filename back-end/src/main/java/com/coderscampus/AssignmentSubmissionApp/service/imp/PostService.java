@@ -7,6 +7,7 @@ import com.coderscampus.AssignmentSubmissionApp.db.repositories.UserRepository;
 import com.coderscampus.AssignmentSubmissionApp.dto.Post;
 import com.coderscampus.AssignmentSubmissionApp.service.IPostService;
 import com.coderscampus.AssignmentSubmissionApp.util.DateUtils;
+import com.coderscampus.AssignmentSubmissionApp.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class PostService implements IPostService {
     private final PostRepository postRepository;
     @Autowired
     private final UserRepository userRepository;
+    private JwtUtil jwtUtil;
 
     protected PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
@@ -48,6 +50,9 @@ public class PostService implements IPostService {
 
     @Override
     public String createPost(Post post) {
+        //jwtUtil.getUsernameFromToken()
+        System.out.println("from createPost service: " + post.getCreator());
+
         if (post.getCreator() == null || post.getContent() == null)
             return "Post cannot be null!";
         Optional<UserDb> userDb = this.userRepository.findByUsername(post.getCreator());

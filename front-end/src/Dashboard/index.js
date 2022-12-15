@@ -4,20 +4,20 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../NavBar";
 import ajax from "../Services/fetchService";
 import StatusBadge from "../StatusBadge";
-import { useUser } from "../UserProvider";
+//import { useUser } from "../UserProvider";
 import MultiColorProgressBar from "../MultiColorProgressBar";
-import jwt_decode from "jwt-decode";
+//import jwt_decode from "jwt-decode";
 import { getDueDates } from "../Services/assignmentDueDatesService";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const user = useUser();
+  const user = useState(null); //useUser();
   const [assignments, setAssignments] = useState(null);
   const [userData, setUserData] = useState(null);
   const [asignmentDueDates, setAssignmentDueDates] = useState(null);
-
+  /*
   useEffect(() => {
-    const decodedJwt = jwt_decode(user.jwt);
+    const decodedJwt = ""; //jwt_decode(user.jwt);
     if (!userData && assignments) {
       ajax("api/users/" + decodedJwt.sub, "GET", user.jwt).then((data) => {
         setUserData(data);
@@ -41,6 +41,7 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, [user.jwt]);
+  */
 
   function createAssignment() {
     ajax("api/assignments", "POST", user.jwt).then((assignment) => {

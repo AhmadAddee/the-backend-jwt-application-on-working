@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button, Image } from "react-bootstrap";
 import logo from "../Images/coders-campus-logo.png";
-import { useUser } from "../UserProvider";
-import jwt_decode from "jwt-decode";
+//import { useUser } from "../UserProvider";
+//import jwt_decode from "jwt-decode";
 
 function NavBar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const user = useUser();
+  const user = useState(null); //useUser();
   const [authorities, setAuthorities] = useState(null);
 
-  useEffect(() => {
-    if (user && user.jwt) {
-      const decodedJwt = jwt_decode(user.jwt);
-      setAuthorities(decodedJwt.authorities);
-    }
-  }, [user, user.jwt]);
+  //useEffect(() => {
+  // if (user && user.jwt) {
+  //const decodedJwt = jwt_decode(user.jwt);
+  //setAuthorities(decodedJwt.authorities);
+  //}
+  //}, [user, user.jwt]);
 
   return (
     <div className="NavBar nav d-flex justify-content-around justify-content-lg-between">

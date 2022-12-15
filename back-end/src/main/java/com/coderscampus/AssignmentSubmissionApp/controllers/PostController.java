@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/post")
-@CrossOrigin//(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
     @Autowired
     private final IPostService postService;
@@ -22,6 +22,7 @@ public class PostController {
     //@RequestMapping(path = "/posts", method = RequestMethod.GET)
     @GetMapping("/get-all")
     public List<Post> getPosts() {
+        System.out.println("in post controller");
         return this.postService.getPosts();
     }
 
@@ -33,6 +34,7 @@ public class PostController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public String createPost(@RequestBody Post post) {
+        System.out.println("Creating post, from controller: " + post);
         return this.postService.createPost(post);
     }
 

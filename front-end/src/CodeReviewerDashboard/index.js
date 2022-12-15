@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import jwt_decode from "jwt-decode";
+//import jwt_decode from "jwt-decode";
 import ajax from "../Services/fetchService";
 import StatusBadge from "../StatusBadge";
 import { useNavigate } from "react-router-dom";
@@ -22,12 +22,14 @@ const CodeReviewerDashboard = () => {
   }
 
   function claimAssignment(assignment) {
+    /*
     const decodedJwt = jwt_decode(user.jwt);
     const codeReviewer = {
       username: decodedJwt.sub,
     };
 
     assignment.codeReviewer = codeReviewer;
+    */
     // TODO: don't hardcode this status
     assignment.status = "In Review";
     ajax(`/api/assignments/${assignment.id}`, "PUT", user.jwt, assignment).then(

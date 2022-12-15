@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "../UserProvider";
-import jwt_decode from "jwt-decode";
+//import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 const Comment = (props) => {
   const user = useUser();
-  const decodedJwt = jwt_decode(user.jwt);
+  const decodedJwt = ""; //jwt_decode(user.jwt);
   const { id, createdDate, createdBy, text } = props.commentData;
   const { emitEditComment, emitDeleteComment } = props;
   const [commentRelativeTime, setCommentRelativeTime] = useState("");

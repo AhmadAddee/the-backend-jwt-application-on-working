@@ -33,7 +33,7 @@ const Login = () => {
     })
       .then((response) => Promise.all([response.json(), response.headers]))
       .then(([body, headers]) => {
-        console.log(headers);
+        console.log(headers.get("Authorization"));
         console.log(body);
         setJwt(headers.get("authorization"));
       });

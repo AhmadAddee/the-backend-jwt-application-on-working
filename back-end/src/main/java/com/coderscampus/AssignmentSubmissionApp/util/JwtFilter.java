@@ -38,7 +38,8 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // Authorization -> ([Bearer], [blablabla])
-        final String token = header.split(" ")[1].trim();
+        final String token = header.split(" ")[1].trim().replaceAll("^\"|\"$", "");
+        //token.replaceAll("^\"|\"$", "");
         System.out.println("The token is: " + token);
 
         // Get user identity and set it on the spring security context
