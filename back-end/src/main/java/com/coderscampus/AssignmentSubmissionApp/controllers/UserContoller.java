@@ -30,6 +30,7 @@ public class UserContoller {
 
     @GetMapping("/get-user")
     public User getUserByUsername(@RequestParam(value = "username", required = false)String username) {
+        System.out.println("In user controller username is " + username);
         return this.iUserService.getUserByUsername(username);
     }
 
