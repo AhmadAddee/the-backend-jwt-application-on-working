@@ -4,13 +4,15 @@ import com.coderscampus.AssignmentSubmissionApp.dto.Post;
 import com.coderscampus.AssignmentSubmissionApp.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/post")
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class PostController {
     @Autowired
     private final IPostService postService;

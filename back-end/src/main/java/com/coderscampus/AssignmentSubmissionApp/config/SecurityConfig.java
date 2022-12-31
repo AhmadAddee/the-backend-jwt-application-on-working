@@ -10,6 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,11 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.servlet.http.HttpServletResponse;
 
 @Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(
        // securedEnabled = true,
        // jsr250Enabled = true,
-        //prePostEnabled = true)
+        prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -36,7 +37,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         System.out.println("in secconfig");
 
-        http = http.csrf().disable().cors().disable();
+       // http = http.csrf().disable().cors().disable();
+        http = http.cors().and().csrf().disable();
 
         http = http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

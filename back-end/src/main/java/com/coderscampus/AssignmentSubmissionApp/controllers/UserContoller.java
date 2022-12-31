@@ -3,6 +3,7 @@ package com.coderscampus.AssignmentSubmissionApp.controllers;
 import com.coderscampus.AssignmentSubmissionApp.dto.User;
 import com.coderscampus.AssignmentSubmissionApp.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +30,12 @@ public class UserContoller {
     }
 
     @GetMapping("/get-user")
-    public User getUserByUsername(@RequestParam(value = "username", required = false)String username) {
-        System.out.println("In user controller username is " + username);
-        return this.iUserService.getUserByUsername(username);
+    public User getUserByUsername(@RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
+        System.out.println("In user controller username is " + jwt);
+        return this.iUserService.getUserByUsername(jwt);
     }
 
+    @Deprecated
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public String AddUser(@RequestBody User user) {

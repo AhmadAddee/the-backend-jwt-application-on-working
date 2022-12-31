@@ -7,9 +7,11 @@ import com.coderscampus.AssignmentSubmissionApp.dto.Post;
 import com.coderscampus.AssignmentSubmissionApp.dto.User;
 import com.coderscampus.AssignmentSubmissionApp.service.IUserService;
 import com.coderscampus.AssignmentSubmissionApp.util.DateUtils;
+import com.coderscampus.AssignmentSubmissionApp.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.naming.AuthenticationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class UserService implements IUserService {
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -33,19 +37,19 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        if (username == null)
+    public User getUserByUsername(String jwt) {
+        if (jwt == null)
             throw new RuntimeException("Post cannot be null");
+        String username = jwtUtil.getUsernameFromToken(jwt.split(" ")[1].trim().replaceAll("^\"|\"$", ""));
         Optional<UserDb> userDb = this.userRepository.findByUsername(username);
         return userDb.get() != null? userDbToUser(userDb.get()) : null;
     }
 
     @Override
     public String addUser(User user) {
+        System.out.println(user);
         if (user.getUsername() == null || user.getFullName() == null ||
             user.getAge() == 0 || user.getPassword() == null)
-            return null;
-        else if (this.userRepository.findByUsername(user.getUsername()) != null)
             return null;
         UserDb userDb = new UserDb();
         userDb.setUsername(user.getUsername());
@@ -53,6 +57,7 @@ public class UserService implements IUserService {
         userDb.setAge(user.getAge());
         userDb.setPassword(user.getPassword());
         this.userRepository.save(userDb);
+        System.out.println("user added successfully");
         return user.getUsername();
     }
 

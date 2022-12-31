@@ -1,27 +1,31 @@
 package com.coderscampus.AssignmentSubmissionApp.util;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.PublicKey;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.DefaultJwtBuilder;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtUtil implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
-    public static final long JWT_TOKEN_VALIDITY = 12 * 30 * 24 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 30 * 24 * 60 * 60;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -44,7 +48,8 @@ public class JwtUtil implements Serializable {
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        String encodedSecret = Base64.getEncoder().encodeToString(secret.getBytes());
+        return Jwts.parser().setSigningKey(encodedSecret).parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -69,12 +74,24 @@ public class JwtUtil implements Serializable {
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
 
+        String encodedSecret = Base64.getEncoder().encodeToString(secret.getBytes());
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedSecret);
+        String decodedSecret = new String(decodedBytes);
+        System.out.println(
+                "Claims: " + claims +
+                ", Subject: " + subject +
+                ", JWT_TOKEN_VALIDITY: " + JWT_TOKEN_VALIDITY +
+                ", secret: " + decodedSecret +
+                ", encoded bytes: " + encodedSecret
+        );
+
         return Jwts.builder()
                 .setClaims(claims)
+                .setHeaderParam("type","JWT")
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret).compact();
+                .signWith(SignatureAlgorithm.HS512, encodedSecret).compact();
     }
 
     public Boolean canTokenBeRefreshed(String token) {

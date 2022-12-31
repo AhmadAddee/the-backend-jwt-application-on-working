@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IMessageService {
 
-    String sendMessage(Message message);
+    String sendMessage(Message message, String jwt);
     Message getMessageById(Long id);
     List<Message> findMessageByReceiver(String receiver);
 }

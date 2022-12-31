@@ -57,7 +57,7 @@ public class Post {
                ", postContent='" + content + '\'' +
                ", createdDate=" + createdDate +
                ", creator=" + creator +
-               timeAgo +
+               " " + timeAgo +
                '}';
     }
 }
