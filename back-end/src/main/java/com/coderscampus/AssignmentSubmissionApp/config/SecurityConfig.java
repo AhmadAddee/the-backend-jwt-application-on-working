@@ -37,25 +37,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         System.out.println("in secconfig");
 
-       // http = http.csrf().disable().cors().disable();
         http = http.cors().and().csrf().disable();
-
         http = http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and();
-
         http = http.exceptionHandling()
                         .authenticationEntryPoint(((request, response, ex) -> {
                             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
                         })).and();
-
         http.authorizeRequests()
                         .antMatchers("/api/auth/**").permitAll()
                         .antMatchers("/api").permitAll()
                         .anyRequest().authenticated();
-
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         //http.authenticationProvider(authenticationProvider());
 
         return http.build();//
@@ -64,7 +58,6 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         System.out.println("in auth provider");
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(customPasswordEncoder.getPasswordEncoder());
@@ -75,49 +68,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-/*
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/js/**", "/images/");
-    }
-
-
-
-//////////////////
-
-
-        @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        System.out.println("in secconfig");
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(customPasswordEncoder.getPasswordEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        System.out.println("in secconfig");
-        http.cors().and().csrf().disable()
-                .authenticationProvider(authenticationProvider());
-
-        return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
-        return authConfiguration.getAuthenticationManager();
-    }
-
-*/
 }
- /*
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(customPasswordEncoder.getPasswordEncoder());
-    }*/
 

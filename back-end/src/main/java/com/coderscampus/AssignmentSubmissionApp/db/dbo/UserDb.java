@@ -1,8 +1,5 @@
 package com.coderscampus.AssignmentSubmissionApp.db.dbo;
 
-
-import com.coderscampus.AssignmentSubmissionApp.enums.AuthorityEnum;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -103,7 +100,6 @@ public class UserDb implements UserDetails {
     @Override
     public Set<Authorities> getAuthorities() {
         return authorities;
-        //return null;
     }
 
     public void setAuthorities(Set<Authorities> authorities) {

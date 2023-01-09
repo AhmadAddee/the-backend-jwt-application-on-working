@@ -23,15 +23,6 @@ public class Authorities implements GrantedAuthority {
     @ManyToOne
     //@JsonIgnore
     private UserDb user;
-/*
-    public Authorities() {
-    }
-
-    public Authorities(String authority) {
-        this.authority = authority;
-    }
-
- */
 
     public Long getId() {
         return id;

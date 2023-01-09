@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<?> login (@RequestBody AuthCredentialsRequest req) {
+    public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest req) {
 
         try {
             Authentication authentication = authenticationManager
@@ -56,11 +56,7 @@ public class AuthController {
 
             UserDb userDb = (UserDb) authentication.getPrincipal();
             userDb.setPassword(null);
-            /*UserDto userDto = new UserDto();
-            userDto.setUsername(userDb.getUsername());
-            userDto.setFull_name(userDb.getFull_name());
 
-             */
             String jwt = jwtUtil.generateToken(userDb);
             List<String> roles = userDb.getAuthorities().stream()
                     .map(item -> item.getAuthority())

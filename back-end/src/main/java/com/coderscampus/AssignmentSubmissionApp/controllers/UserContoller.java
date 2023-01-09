@@ -15,8 +15,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserContoller {
 
-    //private static final Logger LOG = LoggerFactory.getLogger(UserContoller.class);
-
     @Autowired
     private final IUserService iUserService;
 

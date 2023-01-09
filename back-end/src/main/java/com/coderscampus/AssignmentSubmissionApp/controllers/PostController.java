@@ -21,7 +21,6 @@ public class PostController {
         this.postService = postService;
     }
 
-    //@RequestMapping(path = "/posts", method = RequestMethod.GET)
     @GetMapping("/get-all")
     public List<Post> getPosts() {
         System.out.println("in post controller");
